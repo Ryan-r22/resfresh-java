@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Deteksi COVID-19 Online</title>
+<style>
+.input-icons i {
+	position: absolute;
+}
+
+.input-icons {
+	width: 100%;
+}
+
+.icon {
+	min-width: 40px;
+	right: 0px;
+	top: 10px;
+	color: navy;
+}
+
+.input-field {
+	width: 100%;
+	padding: 10px;
+	text-align: center;
+}
+
+.datepickerstyle {
+	display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	background-color: #fff;
+	background-image: none;
+	border: 1px solid #ccc;
+	border-color: navy;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+	-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow
+		ease-in-out .15s;
+	-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out
+		.15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+</style>
+<script src="../jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link href="../bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../css/style.css" rel="stylesheet">
+<script src="../js/jquery-ui.js" ></script>
+<script src="../bootstrap/dist/js/bootstrap.min.js"></script>
+<script th:src="@{/sweet.min.js}"></script>
+<script th:src="@{/moment.min.js}"></script>
+<script th:src="@{/pgnations.min.js}"></script> 
+<script th:src="@{/js/swal.js}"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div><center><h1 style="font-weight:bold;">Deteksi COVID-19 Online</h1></center></div>
+<div style="padding-left: 150px; padding-right: 150px;">
+		<h3 style="background-color: green; color: white;padding-left: 30px;padding-right: 30px;
+		padding-top: 10px;padding-bottom: 10px;">DETEKSI DINI COVID-19 ONLINE</h3>
+	<center>
+		<h4 style="color: blue">Tim Kewaspadaan COVID-19 XSIS ACADEMY</h4>
+		<h3>Assalamu'alaikum Wr. Wb.</h3>
+	</center>
+	<p>Menghadapi wabah Covid-19 yang semakin hari semakin membuat takut dan menimbulkan rasa tidak aman bagi masyarakat dunia, XSIS Academy turut berpartisipasi dalam menyediakan sistem deteksi dini terhadap serangan Covid-19.</p>
+	<p>Deteksi dini ini dibuat online yang dapat dimanfaatkan oleh masyarakat umum. Saudara tinggal menjawab beberapa pertanyaan dan hasil jawaban akan dianalisis secara online untuk menduga status saudara termasuk dalam kategori: sehat/bebas Covid-19, ODP (Orang Dalam Pemantauan) atau PDP (Pasien Dalam Pengawasan).</p>
+	<p>Untuk deteksi dini Covid-19 silahkan</p>
+	<button class="btn btn-success" id="add" data-toggle="modal"
+			data-target="addRequest">DETEKSI COVID-19</button>
+	<p></p>
+	<table>
+		<b>Call Center Tim Kewaspadaan COVID-19 XSIS Academy :</b>
+		<tr><td>MEDIS : </td><td>08xx-xxxx-xxxx</td></tr>
+		<tr><td>UMUM : </td><td>08xx-xxxx-xxxx</td></tr>	
+	</table>
+</div>
+	<div class="modal fade" id="addRequest" tabindex="-1" role="dialog"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h3 class="modal-title modal-mn" id="ModalLabel">Deteksi Dini COVID-19</h3>
+				</div>
+				<div class="modal-body">
+					<input type="hidden" id="action" value="">
+					<form id="formRequest" onsubmit="return validasi_input(this)">
+						<input id="id" type="hidden" name="id" value="">
+						<label for="title">IDENTITAS DIRI :</label><br>
+						<label for="title">Nama Lengkap</label><br>
+						<input type='text' class="form-control" id="nama">
+						<span class="error_form" id="nama_error_message"></span><br>
+						<label for="title">Jenis Kelamin</label><br>
+						<select class="form-control" id="jenis">
+							<option hidden="hidden">-- Pilih Jenis Kelamin --</option>
+							<option value="Laki-laki" class="form-control">Laki-laki</option>
+							<option value="Perempuan" class="form-control">Perempuan</option>
+						</select> <span class="error_form" id="jenis_error_message"></span><br>
+						<label for="title">Tanggal Lahir</label>
+						<div class="input-group input-icons date">
+							<input type='text' class="datepickerstyle" id="datepicker" />
+							<a href="#" id="date"><i class="glyphicon glyphicon-calendar icon"></i></a>
+							<span class="error_form" id="tanggalLahir_error_message"></span>
+						</div>
+						<label for="title">No. WA</label><br>
+						<input type='text' class="form-control" id="wa">
+						<span class="error_form" id="wa_error_message"></span>
+					<div class="form-group">
+						<label for="title">Alamat Sekarang</label><br>
+						<textarea class="form-control" id="address" name="address" rows="3"></textarea>
+						<span class="error_form" id="address_error_message"></span>
+					</div><br>
+					<label for="title">GEJALA :</label><br>
+					<label for="title">1. Demam / Riwayat Demam</label><br>
+					<select class="form-control" id="demam">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="demam_error_message"></span><br>
+					<label for="title">2. Batuk / Pilek / Nyeri Tenggorokan</label><br>
+					<select class="form-control" id="batuk">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="batuk_error_message"></span><br>
+					<label for="title">3. Sesak Nafas</label><br>
+					<select class="form-control" id="sesak">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="sesak_error_message"></span><br><br>
+					<label for="title">DETEKSI FAKTOR RISIKO :</label><br>
+					<label for="title">1. Riwayat perjalanan ke luar negeri atau kota terjangkit di Indonesia dalam waktu 14 hari sebelum timbul gejala.</label><br>
+					<select class="form-control" id="pergi" onChange="changetextbox(this);">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="pergi_error_message"></span><br>
+					<label for="title">Kota Terjangkit</label><br>
+					<select class="form-control" id="kota" disabled="disabled">
+						<option hidden="hidden">-- Pilih Kota --</option>
+						<option value="Luar Negeri" class="form-control">Luar Negeri</option>
+						<option value="Aceh" class="form-control">Aceh</option>
+						<option value="Bandung" class="form-control">Bandung</option>
+						<option value="Bogor" class="form-control">Bogor</option>
+						<option value="Depok" class="form-control">Depok</option>
+						<option value="Jakarta" class="form-control">Jakarta</option>
+						<option value="Makasar" class="form-control">Makasar</option>
+						<option value="Manado" class="form-control">Manado</option>
+						<option value="Medan" class="form-control">Medan</option>
+						<option value="Pontianak" class="form-control">Pontianak</option>
+						<option value="Solo" class="form-control">Solo</option>
+						<option value="Tanggerang" class="form-control">Tanggerang</option>
+						<option value="Yogyakarta" class="form-control">Yogyakarta</option>
+						<option value="Lainnya" class="form-control">Lainnya</option>
+					</select> <span class="error_form" id="kota_error_message"></span><br>
+					<label for="title">2. Memiliki riwayat paparan salah satu atau lebih</label><br>
+					<label for="title">a. Riwayat kontak erat dengan kasus positif COVID-19</label><br>
+					<select class="form-control" id="2a">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="2a_error_message"></span><br>
+					<label for="title">b. Bekerja atau mengunjungi fasilitas kesehatan yang berhubungan dengan pasien positif COVID-19</label><br>
+					<select class="form-control" id="2b">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="2b_error_message"></span><br>
+					<label for="title">c. Memiliki riwayat kontak dengan hewan penular (Jika hewan penular sudah teridentifikasi)</label><br>
+					<select class="form-control" id="2c">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="2c_error_message"></span><br>
+					<label for="title">d. Memiliki demam lebih 38 Derajat Calcius atau ada riwayat demam, memiliki riwayat perjalanan ke luar negeri atau kontak dengan orang yang memiliki riwayat perjalanan ke luar negeri</label><br>
+					<select class="form-control" id="2d">
+						<option hidden="hidden">-- Pilih --</option>
+						<option value="Ya" class="form-control">Ya</option>
+						<option value="Tidak" class="form-control">Tidak</option>
+					</select> <span class="error_form" id="2d_error_message"></span><br>
+					
+					<div style="text-align: right;">
+						<button type="button" class="btn btn-batal btn-secondary"
+							data-dismiss="modal">Batal</button>
+						<button type="button" class="btn btn-save btn-primary"
+							id="saveData">Simpan</button>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+var kota = document.getElementById("kota");
+var error_nama, error_jenis, error_ttl, error_wa, error_address, error_demam, error_batuk, error_sesak, error_pergi, error_2a, error_2b, error_2c, error_2d;
+
+$("#add").click(function() {
+	$("#modalLabel").text("Deteksi Dini COVID-19 Online");
+	$("#formRequest")[0].reset();
+//	$("#action").val("add");
+	$("#addRequest").modal("show");
+});
+
+$("#saveData").click(function() {
+	error_nama = false; error_jenis = false; error_ttl = false; error_wa = false; error_address = false; error_demam = false; error_batuk = false; error_sesak = false; error_pergi = false; error_2a = false; error_2b = false; error_2c = false; error_2d = false;
+	uncheck();
+	checkData();
+	
+	if(error_nama == true || error_jenis == true || error_ttl == true || error_wa == true || error_address == true || error_demam == true || error_batuk == true || error_sesak == true || error_pergi == true || error_2a == true || error_2b == true || error_2c == true || error_2d == true){
+		console.log('Error');
+	} else {
+		var kota_x;
+		if($("#kota").val() == "-- Pilih Kota --"){
+			kota_x = "";
+		} else {
+			kota_x = $("#kota").val();
+		}
+		
+		let identitas = {
+				nama : $("#nama").val(),
+				jenis_kelamin : $("#jenis").val(),
+				tanggal_lahir : $("#datepicker").val(),
+				no_wa : $("#wa").val(),
+				alamat : $("#address").val()
+		}
+		let gejala = {
+				demam : $("#demam").val(),
+				batuk : $("#batuk").val(),
+				sesak : $("#sesak").val()
+		}
+		let faktor = {
+				pergi : $("#pergi").val(),
+				kota : kota_x,
+				riwayat_a : $("#2a").val(),
+				riwayat_b : $("#2b").val(),
+				riwayat_c : $("#2c").val(),
+				riwayat_d : $("#2d").val()
+		}
+		alert("IDENTITAS :\nNama : "+identitas.nama+"\nJenis Kelamin : "+identitas.jenis_kelamin+"\nTanggal Lahir : "+identitas.tanggal_lahir+"\nNomor WA : "+identitas.no_wa+"\nAlamat : "+identitas.alamat);
+		alert("GEJALA :\nDemam : "+gejala.demam+"\nBatuk / Pilek : "+gejala.batuk+"\nSesak Nafas : "+gejala.sesak);
+		alert("FAKTOR RESIKO :\nPerjalanan keluar kota/negeri : "+faktor.pergi+"\nKota : "+faktor.kota+"\nKontak dengan ODP/PDP : "+faktor.riwayat_a+"\nBekerja / mengunjungi fasilitas kesehatan : "+faktor.riwayat_b+"\nKontak dengan hewan : "+faktor.riwayat_c+"\nRiwayat Lain : "+faktor.riwayat_d);
+//		alert(gejala);
+//		alert(faktor);
+	}
+});
+
+$('#date').click(function(){
+	$('#datepicker').focus();
+});
+
+$(function() {
+	$("#datepicker").datepicker({
+		dateFormat: 'dd/mm/yy'
+	});
+});
+
+function uncheck(){
+	$("#nama_error_message").hide();
+	$("#jenis_error_message").hide();
+	$("#tanggalLahir_error_message").hide();
+	$("#wa_error_message").hide();
+	$("#address_error_message").hide();
+	$("#demam_error_message").hide();
+	$("#batuk_error_message").hide();
+	$("#sesak_error_message").hide();
+	$("#pergi_error_message").hide();
+	$("#kota_error_message").hide();
+	$("#2a_error_message").hide();
+	$("#2b_error_message").hide();
+	$("#2c_error_message").hide();
+	$("#2d_error_message").hide();
+}
+
+function checkData(){
+	checkNama();
+	checkJenis();
+	checkTanggal();
+	checkWa();
+	checkAddress();
+	checkDemam();
+	checkBatuk();
+	checkSesak();
+	checkPergi();
+	check2a();
+	check2b();
+	check2c();
+	check2d();
+}
+
+function checkNama(){
+	if(($("#nama").val()).trim()==""){
+		$("#nama_error_message").html("Field Tidak Boleh Kosong");
+		$("#nama_error_message").show();
+		error_nama = true;
+	} else {
+		$("#nama_error_message").hide();
+	}
+}
+
+function checkJenis(){
+	if(($("#jenis").val()) != "Laki-laki" && ($("#jenis").val()) != "Perempuan"){
+		$("#jenis_error_message").html("Pilih Jenis Kelamin");
+		$("#jenis_error_message").show();
+		error_jenis = true;
+	} else {
+		$("#jenis_error_message").hide();
+	}
+}
+
+function checkTanggal(){
+	if ($("#datepicker").val() == ""){
+		$("#tanggalLahir_error_message").html("Field tidak boleh kosong");
+		$("#tanggalLahir_error_message").show();
+		error_ttl = true;
+	} else {
+		$("#tanggalLahir_error_message").hide();
+	}
+}
+
+function checkWa(){
+	if(($("#wa").val()).trim()==""){
+		$("#wa_error_message").html("Field Tidak Boleh Kosong");
+		$("#wa_error_message").show();
+		error_wa = true;
+	} else {
+		checkPhoneNumber($("#wa").val());
+	}
+}
+
+function checkPhoneNumber(contact) {
+	var phoneno1digit  = /^\d{1}$/;		var phoneno2digit  = /^\d{2}$/;		var phoneno3digit  = /^\d{3}$/;
+	var phoneno4digit  = /^\d{4}$/;		var phoneno5digit  = /^\d{5}$/;		var phoneno6digit  = /^\d{6}$/;
+	var phoneno7digit  = /^\d{7}$/;		var phoneno8digit  = /^\d{8}$/;		var phoneno9digit  = /^\d{9}$/;
+	var phoneno10digit = /^\d{10}$/;	var phoneno11digit = /^\d{11}$/;	var phoneno12digit = /^\d{12}$/;
+	var phoneno13digit = /^\d{13}$/;	var phoneno14digit = /^\d{14}$/;	var phoneno15digit = /^\d{15}$/;
+
+	if( contact.match(phoneno1digit)  || contact.match(phoneno2digit)  || contact.match(phoneno3digit)  ||
+		contact.match(phoneno4digit)  || contact.match(phoneno5digit)  || contact.match(phoneno6digit)  ||
+		contact.match(phoneno7digit)  || contact.match(phoneno8digit)  || contact.match(phoneno9digit)  ||
+		contact.match(phoneno10digit) || contact.match(phoneno11digit) || contact.match(phoneno12digit) ||
+		contact.match(phoneno13digit) || contact.match(phoneno14digit) || contact.match(phoneno15digit)) {
+		$("#wa_error_message").hide();
+	} else {
+		$("#wa_error_message").html("Nomor Kontak tidak valid");
+		$("#wa_error_message").show();
+		error_wa = true;
+	}
+}
+
+function checkAddress(){
+	if(($("#address").val()).trim()==""){
+		$("#address_error_message").html("Field Tidak Boleh Kosong");
+		$("#address_error_message").show();
+		error_address = true;
+	} else {
+		$("#address_error_message").hide();
+	}
+}
+
+function checkDemam(){
+	if(($("#demam").val()) != "Ya" && ($("#demam").val()) != "Tidak"){
+		$("#demam_error_message").html("Pilih Gejala Demam");
+		$("#demam_error_message").show();
+		error_demam = true;
+	} else {
+		$("#demam_error_message").hide();
+	}
+}
+
+function checkBatuk(){
+	if(($("#batuk").val()) != "Ya" && ($("#batuk").val()) != "Tidak"){
+		$("#batuk_error_message").html("Pilih Gejala Batuk / Pilek / Nyeri Tenggorokan");
+		$("#batuk_error_message").show();
+		error_batuk = true;
+	} else {
+		$("#batuk_error_message").hide();
+	}
+}
+
+function checkSesak(){
+	if(($("#sesak").val()) != "Ya" && ($("#sesak").val()) != "Tidak"){
+		$("#sesak_error_message").html("Pilih Gejala Sesak Nafas");
+		$("#sesak_error_message").show();
+		error_sesak = true;
+	} else {
+		$("#sesak_error_message").hide();
+	}
+}
+
+function checkDemam(){
+	if(($("#demam").val()) != "Ya" && ($("#demam").val()) != "Tidak"){
+		$("#demam_error_message").html("Pilih Gejala Demam");
+		$("#demam_error_message").show();
+		error_demam = true;
+	} else {
+		$("#demam_error_message").hide();
+	}
+}
+
+function checkPergi(){
+	if($("#pergi").val()=="Tidak"){
+		$("#pergi_error_message").hide();
+	} else if ($("#pergi").val()=="Ya"){
+		$("#pergi_error_message").hide();
+		if($("#kota").val()=="-- Pilih Kota --"){
+			$("#kota_error_message").html("Kota Harus Dipilih");
+			$("#kota_error_message").show();
+			error_pergi = true;
+		} else {
+			$("#kota_error_message").hide();
+		}
+	} else {
+		$("#pergi_error_message").html("Field Harus Dipilih");
+		$("#pergi_error_message").show();
+		error_pergi = true;
+	}
+}
+
+function check2a(){
+	if(($("#2a").val()) != "Ya" && ($("#2a").val()) != "Tidak"){
+		$("#2a_error_message").html("Field Harus Dipilih");
+		$("#2a_error_message").show();
+		error_2a = true;
+	} else {
+		$("#2a_error_message").hide();
+	}
+}
+
+function check2b(){
+	if(($("#2b").val()) != "Ya" && ($("#2b").val()) != "Tidak"){
+		$("#2b_error_message").html("Field Harus Dipilih");
+		$("#2b_error_message").show();
+		error_2b = true;
+	} else {
+		$("#2b_error_message").hide();
+	}
+}
+
+function check2c(){
+	if(($("#2c").val()) != "Ya" && ($("#2c").val()) != "Tidak"){
+		$("#2c_error_message").html("Field Harus Dipilih");
+		$("#2c_error_message").show();
+		error_2c = true;
+	} else {
+		$("#2c_error_message").hide();
+	}
+}
+
+function check2d(){
+	if(($("#2d").val()) != "Ya" && ($("#2d").val()) != "Tidak"){
+		$("#2d_error_message").html("Field Harus Dipilih");
+		$("#2d_error_message").show();
+		error_2d = true;
+	} else {
+		$("#2d_error_message").hide();
+	}
+}
+
+function changetextbox(pergi) {
+    var selectedValue = pergi.options[pergi.selectedIndex].value;
+    kota.disabled = selectedValue == "Ya" ? false : true;
+    if(selectedValue == "Tidak"){
+    	$("#kota").val("-- Pilih Kota --");
+    }
+}
+
+</script>
+</html>
